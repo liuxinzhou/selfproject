@@ -1,0 +1,15 @@
+<scroll-view class="list-box">
+  <view class="task-item" wx:for="{{receiveTaskList}}" wx:key="index">
+    <view class="work">
+      <view class="name">{{item.taskName}}</view>
+      <view class="money">
+        <view class="time">{{item.createTime}}</view>
+        <view class="number">{{item.price}}元</view>
+      </view>
+    </view>
+    <view bindtap="startRecode" data-id="{{item.id}}">
+      <!-- <image src="../../image/tabbar/start.png" class="btn-style" ></image> -->
+              <button class="btn-style" >开始</button>
+    </view>
+  </view>
+</scroll-view>

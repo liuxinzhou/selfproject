@@ -1,0 +1,51 @@
+<view class="section">
+  <view>
+    <view class="section__title">年龄段</view>
+  </view>
+  <view class="main">
+    <picker bindchange="bindPickerChange" value="{{ageindex}}" range="{{agearray}}" range-key="value">
+      <view class="picker">
+        <text wx:if="{{ageindex===''}}">请选择</text>{{agearray[ageindex].value}}
+      </view>
+    </picker>
+    <image src="../../image/tabbar/right.png" class="right-btn"></image>
+  </view>
+
+</view>
+<view class="section">
+  <view class="sex">
+    <view class="section__title">性别</view>
+    <radio-group class="radio-group" bindchange="radioChange">
+      <radio class="radio" wx:for-items="{{items}}" wx:key="name" value="{{item.name}}" checked="{{index===sexindex}}">
+        <text>{{item.value}}</text>
+      </radio>
+    </radio-group>
+  </view>
+</view>
+<view class="section">
+  <view>
+    <view class="section__title">口音</view>
+  </view>
+  <view class="main">
+    <picker bindchange="bindAccentChange" value="{{accentindex}}" range="{{accentarray}}" range-key="value">
+      <view class="picker">
+        <text wx:if="{{accentindex===''}}">请选择</text>{{accentarray[accentindex].value}}
+      </view>
+    </picker>
+    <image src="../../image/tabbar/right.png" class="right-btn"></image>
+  </view>
+
+</view>
+<view class="section">
+  <view class="section__title">口音类型</view>
+
+  <view class="main">
+    <picker bindchange="bindPickerTypeChange" value="{{accentTypeIndex}}" range="{{accentTypeArray}}" range-key="value">
+      <view class="picker">
+        <text wx:if="{{accentTypeIndex===''}}">请选择</text>{{accentTypeArray[accentTypeIndex].value}}
+      </view>
+    </picker>
+    <image src="../../image/tabbar/right.png" class="right-btn"></image>
+  </view>
+</view>
+<button class="save" bindgetuserinfo="bindgetuserinfo" open-type="getUserInfo">保存</button>

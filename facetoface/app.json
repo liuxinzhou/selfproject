@@ -1,0 +1,53 @@
+{
+  "pages": [
+    "pages/taskList/taskList",
+    "pages/soundDetail/soundDetail",
+    "pages/setting/setting",
+    "pages/soundRecording/soundRecording",
+    "pages/myTask/myTask",
+    "pages/completeTask/completeTask"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarTitleText": "微风拾音",
+    "navigationBarBackgroundColor": "#136ADB",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#ffffff"
+  },
+  "tabBar": {
+    "selectedColor": "#1296db",
+    "list": [
+      {
+        "pagePath": "pages/taskList/taskList",
+        "text": "可领任务",
+        "iconPath": "./image/tabbar/renwu.png",
+        "selectedIconPath": "./image/tabbar/renwulist-active.png"
+      },
+      {
+        "pagePath": "pages/myTask/myTask",
+        "text": "待做任务",
+        "iconPath": "./image/tabbar/renwu_2.png",
+        "selectedIconPath": "./image/tabbar/renwu_active.png"
+      },
+      {
+        "pagePath": "pages/completeTask/completeTask",
+        "text": "已完成任务",
+        "iconPath": "./image/tabbar/renwu_1.png",
+        "selectedIconPath": "./image/tabbar/renwu-active.png"
+      },
+      {
+        "pagePath": "pages/setting/setting",
+        "text": "个人设置",
+        "iconPath": "./image/tabbar/set.png",
+        "selectedIconPath": "./image/tabbar/set-active.png"
+      }
+    ]
+  },
+  "plugins": {
+    "WechatSI": {
+      "version": "0.3.3",
+      "provider": "wx069ba97219f66d99"
+    }
+  },
+  "sitemapLocation": "sitemap.json"
+}

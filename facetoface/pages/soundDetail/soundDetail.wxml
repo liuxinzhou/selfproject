@@ -1,0 +1,14 @@
+<view class="main" style="height:{{height}}px">
+  <view class="group-name">{{words.taskName}}</view>
+  <!-- <view class="title">
+      录制第一个词语:
+    </view> -->
+  <view class="word-box">
+     <view class="word-title">{{words.entryList[index].name}}</view>
+    <view class="word-sum">({{index+1}}/{{words.entryList.length}})</view>
+  </view>
+  <audio name="{{name}}" author="{{author}}" src="{{words[index].src}}" id="myAudio"></audio>
+  <image src="../../image/tabbar/play.png" class="audiostyle" bindtap="audioPlay" wx:if="{{!playstartflag}}"></image>
+  <image src="../../image/tabbar/stop.png" class="audiostyle" bindtap="audioPlay" wx:if="{{playstartflag}}"></image>
+  <view class="tilp" bindtap="switchword" wx:if="{{index<words.length-1}}">{{toolip}}</view>
+</view>

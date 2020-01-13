@@ -1,0 +1,24 @@
+<scroll-view class="list-box">
+  <!-- <block wx:if="{{authorization}}"> -->
+    <view class="task-item" wx:for="{{receiveTaskList}}" wx:key="index">
+      <view class="work">
+        <view class="name">{{item.name}}</view>
+        <view class="money">
+          <view class="time">{{item.createTime}}</view>
+          <view class="number">{{item.price}}元</view>
+        </view>
+        <view wx:if="{{item.full}}" class="errortip">
+          领取人数已达上线
+        </view>
+      </view>
+      <view>
+        <button class="btn-style-dis" data-id="{{item.id}}" wx:if="{{item.full}}">领取</button>
+        <button class="btn-style" bindtap="receiveWork" data-id="{{item.id}}" wx:else>领取</button>
+      </view>
+    </view>
+  <!-- </block> -->
+  <!-- <view wx:else class="authorizationbox" >
+  <image src="../../image/tabbar/start.jpg" mode="scaleToFill" style="height:{{height}}px"></image>
+    <button class="link-style" bindgetuserinfo="bindgetuserinfo" open-type="getUserInfo">前往领取任务</button>
+  </view> -->
+</scroll-view>

@@ -1,0 +1,19 @@
+<scroll-view class="list-box">
+  <view class="task-item" wx:for="{{receiveTaskList}}" data-audio="{{item}}" wx:key="index">
+    <view class="work">
+      <view class="name">任务编号:{{item.id}}</view>
+      <view class="name">任务名称:{{item.taskName}}</view>
+      <view class="count">词条个数:{{item.entryCount}}</view>
+      <view class="money">
+        <view class="time">{{item.collectTime}}</view>
+        <view class="number">{{item.price}}元</view>
+      </view>
+    </view>
+    <view>
+      <image src="../../image/tabbar/weiwancheng.png" class="btn-style" wx:if="{{item.status==1}}"></image>
+      <image src="../../image/tabbar/shenhezhong.png" class="btn-style" wx:if="{{item.status==2}}"></image>
+      <image src="../../image/tabbar/yiwancheng.png" class="btn-style" wx:if="{{item.status==3}}"></image>
+    </view>
+
+  </view>
+</scroll-view>

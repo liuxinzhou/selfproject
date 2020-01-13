@@ -1,0 +1,22 @@
+<view class="main">
+  <view class="group-name"> {{info.taskName}}</view>
+  <!-- <view class="title">
+      录制第一个词语:
+    </view> -->
+  <view class="word-box">
+    <view class="word-title">{{words.name}}</view>
+    <view class="word-sum">({{index+1}}/{{info.entryList.length}})</view>
+  </view>
+  <!-- <view>
+    {{currentText}}---{{words[index].speek}}
+  </view> -->
+  <view class="errorbox" wx:if="{{resultMsg.length>0}}">
+    <image src="../../image/tabbar/cry.gif" class="errorimg"></image>
+    <view class="error">{{resultMsg}}</view>
+  </view>
+  <view class="soundbox" bindtouchstart="streamRecord" bindtouchend="streamRecordEnd" bindtouchmove="streamRecordEnd">
+    <image src="../../image/tabbar/sound.png" class="soundbtn"></image>
+  </view>
+  <view class="tilp" bindtap="">{{toolip}}</view>
+
+</view>
