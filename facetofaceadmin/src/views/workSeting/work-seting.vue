@@ -120,12 +120,14 @@
                   prop="id"
                   align="center"
                   show-overflow-tooltip
+                  width="100"
                   label="唯一标示"
                 >
                 </el-table-column>
                 <el-table-column
                   prop="ageLabel"
                   align="center"
+                  width="100"
                   show-overflow-tooltip
                   label="年龄段"
                 >
@@ -133,6 +135,7 @@
                 <el-table-column
                   prop="sexLabel"
                   align="center"
+                  width="100"
                   show-overflow-tooltip
                   label="性别"
                 >
@@ -140,6 +143,7 @@
                 <el-table-column
                   prop="typeLabel"
                   align="center"
+                  width="100"
                   show-overflow-tooltip
                   label="口音"
                 >
@@ -147,6 +151,7 @@
                 <el-table-column
                   prop="accentLabel"
                   align="center"
+                  width="100"
                   show-overflow-tooltip
                   label="口音类型"
                 >

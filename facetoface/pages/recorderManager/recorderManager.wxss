@@ -1,0 +1,113 @@
+.eg-btn {
+  /* background: red; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50rpx;
+}
+
+.eg-text {
+  background: #136adb;
+  /* width: 100rpx; */
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  padding: 20rpx;
+  border-radius: 20rpx;
+  font-size: 40rpx;
+}
+
+.icon {
+  width: 50rpx;
+  height: 50rpx;
+  margin-left: 10rpx;
+}
+
+.eg-word {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 100rpx;
+  margin-top: 50rpx;
+  padding-bottom: 20rpx;
+  color: #0654bba2;
+  /* background: red; */
+  border-bottom: 1px solid #d6d6d6;
+  text-align: center;
+}
+.eg-tip{
+  padding: 10px
+}
+.juli {
+  font-size: 100rpx;
+  color: rgb(219, 109, 19);
+}
+
+.yusu {
+  font-size: 70rpx;
+  color: #dd5d13a2;
+}
+
+.cishu {
+  font-size: 50rpx;
+  color: #f0380aef;
+}
+
+.proess {
+  /* background: red; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.proess-text {
+  background: #d6d6d6;
+  padding: 20rpx 30rpx;
+  font-size: 30rpx;
+  margin-top: 30rpx;
+  border-radius: 10rpx;
+  width: 200rpx;
+  text-align: center;
+}
+
+.play-btn-icon {
+  height: 228rpx;
+  width: 228rpx;
+}
+
+.play-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30rpx;
+}
+
+.play-btn-yuanchen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 30rpx;
+}
+
+.reset {
+  margin-top: 30rpx;
+  padding: 30rpx;
+  color: #136adb;
+}
+
+.progress-box {
+  display: flex;
+  padding: 0 10px;
+}
+
+.progress-width {
+  width: 90%;
+}
+
+.progress-text {
+  width: 150rpx;
+  text-align: center;
+}

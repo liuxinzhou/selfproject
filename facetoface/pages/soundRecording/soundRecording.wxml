@@ -14,7 +14,7 @@
     <image src="../../image/tabbar/cry.gif" class="errorimg"></image>
     <view class="error">{{resultMsg}}</view>
   </view>
-  <view class="soundbox" bindtouchstart="streamRecord" bindtouchend="streamRecordEnd" bindtouchmove="streamRecordEnd">
+  <view class="soundbox" bindtouchstart="streamRecord" bindtouchend="streamRecordEnd">
     <image src="../../image/tabbar/sound.png" class="soundbtn"></image>
   </view>
   <view class="tilp" bindtap="">{{toolip}}</view>

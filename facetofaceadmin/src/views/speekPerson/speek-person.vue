@@ -1,44 +1,44 @@
 <template>
   <div>
-    <!--<div class="condition">-->
-    <!--<el-form :model="ruleForm" :rules="rules" :inline="true" ref="ruleForm" label-width="100px" class="demo-ruleForm"-->
-    <!--size="small">-->
-    <!--<el-form-item label="年龄段" prop="wordname">-->
-    <!--<el-select v-model="ruleForm.agerange" placeholder="请选择">-->
-    <!--<el-option-->
-    <!--v-for="item in ageranges"-->
-    <!--:key="item.value"-->
-    <!--:label="item.label"-->
-    <!--:value="item.value">-->
-    <!--</el-option>-->
-    <!--</el-select>-->
-    <!--</el-form-item>-->
-    <!--<el-form-item label="口音" prop="groupname">-->
-    <!--<el-select v-model="ruleForm.kouyin" placeholder="请选择">-->
-    <!--<el-option-->
-    <!--v-for="item in kouyins"-->
-    <!--:key="item.value"-->
-    <!--:label="item.label"-->
-    <!--:value="item.value">-->
-    <!--</el-option>-->
-    <!--</el-select>-->
-    <!--</el-form-item>-->
-    <!--<el-form-item label="口音类型" prop="groupname">-->
-    <!--<el-select v-model="ruleForm.kouyinType" placeholder="请选择">-->
-    <!--<el-option-->
-    <!--v-for="item in kouyinTypes"-->
-    <!--:key="item.value"-->
-    <!--:label="item.label"-->
-    <!--:value="item.value">-->
-    <!--</el-option>-->
-    <!--</el-select>-->
-    <!--</el-form-item>-->
-    <!--<el-form-item class="btn-box">-->
-    <!--<el-button type="primary" @click="submitForm('ruleForm')" size="small">查询</el-button>-->
-    <!--<el-button @click="resetForm('ruleForm')" size="small">重置</el-button>-->
-    <!--</el-form-item>-->
-    <!--</el-form>-->
-    <!--</div>-->
+    <div class="condition">
+      <el-form :model="ruleForm" :inline="true" ref="ruleForm" label-width="100px" class="demo-ruleForm"
+               size="small">
+        <el-form-item label="年龄段" prop="wordname">
+          <el-select v-model="ruleForm.agerange" placeholder="请选择">
+            <el-option
+              v-for="item in ageranges"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="口音" prop="groupname">
+          <el-select v-model="ruleForm.kouyin" placeholder="请选择">
+            <el-option
+              v-for="item in kouyins"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="口音类型" prop="groupname">
+          <el-select v-model="ruleForm.kouyinType" placeholder="请选择">
+            <el-option
+              v-for="item in kouyinTypes"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item class="btn-box">
+          <el-button type="primary" @click="getListData('ruleForm')" size="small">查询</el-button>
+          <el-button @click="resetForm('ruleForm')" size="small">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
     <div class="main-box">
       <div class="btn-add">
         <el-button type="primary" @click="addWord('ruleForm')" size="small">添加</el-button>
@@ -83,7 +83,7 @@
           label="操作"
           width="100">
           <template slot-scope="scope">
-            <el-button @click="updateWord(scope.row)" type="text" size="small">编辑</el-button>
+            <!--<el-button @click="updateWord(scope.row)" type="text" size="small">编辑</el-button>-->
             <el-button type="text" size="small" @click="deleteWord(scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -222,9 +222,19 @@
       this.getListData()
     },
     methods: {
+      resetForm () {
+        this.ruleForm = {
+          agerange: '',
+          kouyin: '',
+          kouyinType: ''
+        }
+      },
       getListData () {
         let params = {
           current: this.currentPage,
+          age: this.ruleForm.agerange,
+          type: this.ruleForm.kouyin,
+          accent: this.ruleForm.kouyinType,
           size: 10
         }
         let that = this

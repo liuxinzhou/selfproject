@@ -1,5 +1,6 @@
 <template>
   <div class="about" :style="{'height':height+'px'}">
+
     <div class="login">
       管理员登录
       <el-input placeholder="用户名" v-model="username" prefix-icon="el-icon-user" class="cellinfo">
@@ -9,6 +10,7 @@
       <div class="loginbtn">
         <span class="btnicon" @click="login">登录</span>
       </div>
+      <!--<div class="resetpassword" @click="openpassword">忘记密码</div>-->
     </div>
   </div>
 </template>
@@ -86,6 +88,39 @@
           border-radius: 50px;
           cursor: pointer;
         }
+      }
+      .resetpassword {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 12px;
+        cursor: pointer;
+      }
+    }
+    .passwordbox {
+      width: 240px;
+      height: 300px;
+      background: radial-gradient(#ffffff, darkblue);
+      padding: 30px;
+      .cellinfo {
+        margin: 20px 0;
+        /*background: rgba(0, 0, 0, 0.5);*/
+      }
+      .loginbtn {
+        text-align: center;
+        margin-top: 20px;
+        .btnicon {
+          padding: 10px 50px;
+          border: 2px solid #4FA1D9;
+          color: #4FA1D9;
+          border-radius: 50px;
+          cursor: pointer;
+        }
+      }
+      .resetpassword {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 12px;
+        cursor: pointer;
       }
     }
   }

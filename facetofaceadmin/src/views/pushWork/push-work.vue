@@ -141,17 +141,21 @@
                 <el-table-column
                   prop="name"
                   align="center"
+                  width="200"
                   label="组合名称"
                 >
                 </el-table-column>
                 <el-table-column
                   prop="description"
                   align="center"
+                  width="200"
                   label="说明">
                 </el-table-column>
                 <el-table-column
                   prop="entryNameLabel"
                   align="center"
+                  width="100"
+                  show-overflow-tooltip
                   label="包括词条">
                 </el-table-column>
               </el-table>
@@ -185,33 +189,39 @@
                 <el-table-column
                   prop="id"
                   align="center"
+                  width="100"
                   label="唯一标示"
                 >
                 </el-table-column>
                 <el-table-column
                   prop="ageLabel"
                   align="center"
+                  width="100"
                   label="年龄段"
                 >
                 </el-table-column>
                 <el-table-column
                   prop="sexLabel"
                   align="center"
+                  width="100"
                   label="性别">
                 </el-table-column>
                 <el-table-column
                   prop="typeLabel"
                   align="center"
+                  width="100"
                   label="口音">
                 </el-table-column>
                 <el-table-column
                   prop="accentLabel"
                   align="center"
+                  width="100"
                   label="口音类型">
                 </el-table-column>
                 <el-table-column
                   prop="number"
                   align="center"
+                  width="100"
                   label="人数">
                 </el-table-column>
               </el-table>

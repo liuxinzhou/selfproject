@@ -9,7 +9,7 @@ Page({
     ageindex: '',
     accentarray: [{ key: '1', value: '普通话' }, { key: '2', value: '方言' }],
     accentindex: '',
-    accentTypeArray: [{ key: '1', value: '南方口音' }, { key: '2', value: '北方口音' }, { key: '3', value: '东北口音' }, { key: '4', value: '两广口音' }],
+    accentTypeArray: [{ key: '1', value: '南方口音' }, { key: '2', value: '北方口音' }, { key: '3', value: '两广口音' }, { key: '4', value: '东北口音' }],
     accentTypeIndex: '',
     items: [
       { name: '1', value: '男' },
@@ -115,9 +115,10 @@ Page({
       wx.setStorageSync("sexindex", ''+this.data.sexindex)
       wx.setStorageSync("accentindex", ''+this.data.accentindex)
       wx.setStorageSync("accentTypeIndex", ''+this.data.accentTypeIndex)
-      wx.showToast({
-        title: '保存成功',
-        icon: 'none'
+      wx.showModal({
+        title: '提示',
+        content: '保存成功',
+        showCancel:false
       })
     }
   },

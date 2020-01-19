@@ -1,9 +1,10 @@
 {
   "pages": [
     "pages/taskList/taskList",
+    "pages/soundRecording/soundRecording",
+    "pages/recorderManager/recorderManager",
     "pages/soundDetail/soundDetail",
     "pages/setting/setting",
-    "pages/soundRecording/soundRecording",
     "pages/myTask/myTask",
     "pages/completeTask/completeTask"
   ],

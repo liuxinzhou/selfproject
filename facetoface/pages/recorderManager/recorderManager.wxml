@@ -1,0 +1,32 @@
+<view>
+  <view class="progress-box">
+    <progress percent="{{(index+1)/words.length*100}}" stroke-width="12" class="progress-width"/>
+    <text class="progress-text">{{index+1}}/{{words.length}}</text>
+  </view>
+  <view class="eg-btn">
+    <view class="eg-text" bindtap="audioPlay">
+      <text>示例发音</text>
+      <image src="../../image/laba.png" class="icon"></image>
+      <audio src="{{src}}" id="myAudio"  ></audio>
+    </view>
+  </view>
+  <view class="eg-word">
+    {{words[index].name}}
+  </view>
+  <view class="eg-tip">
+    录音时距离手机
+    <text class="juli">50厘米</text>,
+    <text class="yusu">正常语速</text>,每词录制
+    <text class="cishu">10遍</text>
+  </view>
+  <view class="proess">
+    <view class="proess-text">{{speekCount}}<text wx:if="{{speekFlag}}">秒</text></view>
+  </view>
+  <view class="play-btn" wx:if="{{false}}">
+    <image src="../../image/tabbar/sound.png" class="play-btn-icon"></image>
+  </view>
+  <view class="play-btn-yuanchen" wx:else>
+    <image src="../../image/tabbar/sound.png" class="play-btn-icon" bindtap="startRecord"></image>
+    <text class="reset">重新录制</text>
+  </view>
+</view>

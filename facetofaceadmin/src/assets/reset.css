@@ -17,3 +17,21 @@
     margin-bottom: 0 !important;
 
 }
+
+.el-popover{
+    height: 200px !important;
+    overflow-y: auto !important;
+}
+
+/*.el-input__suffix .el-input__icon .el-icon-circle-close .el-input__clear{*/
+    /*color: red;*/
+    /*margin: 0 !important;*/
+    /*padding: 0 !important;*/
+/*}*/
+/*.el-input__suffix  {*/
+    /*background: #D6d6d6;*/
+    /*color: aqua;*/
+    /*margin: 0 !important;*/
+    /*padding: 0 !important;*/
+    /*right: 0;*/
+/*}*/

@@ -83,6 +83,11 @@ var router = new Router({
           meta: {
             title: '语料统计'
           }
+        },
+        {
+          path: '/repassword',
+          name: 'repassword',
+          component: () => import(/* webpackChunkName: "about" */ './views/repassword.vue')
         }
       ]
     },
@@ -94,7 +99,7 @@ var router = new Router({
   ]
 })
 router.beforeEach((to, from, next) => {
-  if (to.fullPath !== '/tologin') {
+  if (to.fullPath !== '/tologin' && to.fullPath !== '/repassword') {
     if (!localStorage.userinfo) {
       next('/tologin')
     } else {

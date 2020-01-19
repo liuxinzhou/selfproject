@@ -77,49 +77,79 @@
           <el-input v-model="groupFrom.description" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="关联词语" label-width="120px" class="maginbox" prop="wordname">
-          <el-dropdown @visible-change="visibleChange">
-            <el-tooltip class="item" effect="dark" :content="groupFrom.wordname" placement="right-start"
-                        :disabled="groupFrom.wordname.length==0">
-              <el-input v-model="groupFrom.wordname" clearable @clear="clearSelectionChange"></el-input>
-            </el-tooltip>
-            <el-dropdown-menu slot="dropdown">
-              <el-table
-                :data="wordData"
-                border
-                ref="multipleTable"
-                size="small"
-                height="300"
-                :header-cell-style="headerRowClassName"
-                style="width: 100%"
-                @selection-change="handleSelectionChange">
-                <el-table-column
-                  type="selection"
-                  width="55">
-                </el-table-column>
-                <el-table-column
-                  prop="id"
-                  align="center"
-                  show-overflow-tooltip
-                  label="唯一标示"
-                >
-                </el-table-column>
-                <el-table-column
-                  prop="name"
-                  align="center"
-                  show-overflow-tooltip
-                  label="组合名称"
-                >
-                </el-table-column>
-              </el-table>
-              <!--<el-pagination-->
-              <!--@size-change="handleWordSizeChange"-->
-              <!--@current-change="handleWordCurrentChange"-->
-              <!--layout="prev, pager, next"-->
-              <!--:current-page.sync="currentWordPage"-->
-              <!--:total="wordTotal">-->
-              <!--</el-pagination>-->
-            </el-dropdown-menu>
-          </el-dropdown>
+          <el-select v-model="groupFrom.wordname" placeholder="请选择" multiple filterable>
+            <el-option
+              v-for="item in wordData"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+              <span style="float: left; color: #8492a6; font-size: 13px;margin-right: 10px">{{ item.id }}</span>
+              <span style="float: left">{{ item.name }}</span>
+            </el-option>
+          </el-select>
+          <!--<el-dropdown @command="visibleChange" trigger="click">-->
+          <!--<el-input v-model="groupFrom.wordname" clearable @clear="clearSelectionChange"></el-input>-->
+          <!--<el-popover-->
+          <!--placement="top-start"-->
+          <!--title=""-->
+          <!--width="200"-->
+          <!--trigger="click"-->
+          <!--popper-class="popperClass"-->
+          <!--:content="groupFrom.wordname">-->
+          <!--<el-button type="text" slot="reference" style="margin-left: 10px"> 查看</el-button>-->
+          <!--</el-popover>-->
+          <!--<el-dropdown-menu slot="dropdown">-->
+          <!--<el-table-->
+          <!--:data="wordData"-->
+          <!--border-->
+          <!--ref="multipleTable"-->
+          <!--size="small"-->
+          <!--height="500"-->
+          <!--:header-cell-style="headerRowClassName"-->
+          <!--style="width: 100%"-->
+          <!--filtered-value="小大发放"-->
+          <!--@selection-change="handleSelectionChange">-->
+          <!--<el-table-column-->
+          <!--type="selection"-->
+          <!--width="55">-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+          <!--prop="id"-->
+          <!--align="center"-->
+          <!--width="100"-->
+          <!--show-overflow-tooltip-->
+          <!--label="唯一标示"-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+          <!--prop="name"-->
+          <!--align="center"-->
+          <!--width="250"-->
+          <!--show-overflow-tooltip-->
+          <!--label="组合名称"-->
+          <!--&gt;-->
+          <!--<template slot="header" slot-scope="scope">-->
+          <!--<div style="display: flex;justify-content: center;align-items: center">-->
+          <!--<span style="white-space: nowrap;margin-right: 10px">组合名称</span>-->
+          <!--<el-input-->
+          <!--v-model="search"-->
+          <!--size="mini"-->
+          <!--@change="filterHandler"-->
+          <!--style="width: 150px"-->
+          <!--placeholder="输入关键字搜索"/>-->
+          <!--</div>-->
+          <!--</template>-->
+          <!--</el-table-column>-->
+          <!--</el-table>-->
+          <!--&lt;!&ndash;<el-pagination&ndash;&gt;-->
+          <!--&lt;!&ndash;@size-change="handleWordSizeChange"&ndash;&gt;-->
+          <!--&lt;!&ndash;@current-change="handleWordCurrentChange"&ndash;&gt;-->
+          <!--&lt;!&ndash;layout="prev, pager, next"&ndash;&gt;-->
+          <!--&lt;!&ndash;:current-page.sync="currentWordPage"&ndash;&gt;-->
+          <!--&lt;!&ndash;:total="wordTotal">&ndash;&gt;-->
+          <!--&lt;!&ndash;</el-pagination>&ndash;&gt;-->
+          <!--</el-dropdown-menu>-->
+          <!--</el-dropdown>-->
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -152,6 +182,7 @@
       return {
         total: 0,
         showData: [],
+        search: '',
         selectionChange: [],
         selectionChangeText: '',
         showDetailFlag: false,
@@ -173,14 +204,15 @@
           ]
         },
         groupFrom: {
-          wordname: '',
+          wordname: [],
           groupname: '',
           description: '',
           wordnameList: []
         },
         wordTotal: 0,
         wordData: [],
-        currentRow: {}
+        currentRow: {},
+        filterFlag: false
       }
     },
     mounted () {
@@ -188,16 +220,21 @@
     },
     methods: {
       visibleChange (val) {
-        if (val) {
-          let that = this
-          this.currentRow.entryList.map((obj) => {
+        if (!val) {
+          this.filterFlag = val
+        }
+        let that = this
+        this.$nextTick(() => {
+          that.currentRow.entryList.map((obj) => {
             that.wordData.map(row => {
               if (row.id == obj.id) {
                 that.$refs.multipleTable.toggleRowSelection(row)
               }
             })
           })
-        }
+        })
+
+        // }
       },
       getListData () {
         let params = {
@@ -222,11 +259,26 @@
           if (res.code == 200) {
             that.wordData = res.data
             that.wordTotal = res.data.total
+            // that.visibleChange(true)
           }
         })
       },
       headerRowClassName () {
         return 'background: #2196f3;color:#ffffff'
+      },
+      filterHandler () {
+        this.filterFlag = true
+        let that = this
+        this.wordData = this.wordData.filter(data => !this.search || data.name.toLowerCase().includes(this.search.toLowerCase()))
+        this.$nextTick(() => {
+          that.currentRow.entryList.map((obj) => {
+            that.wordData.map(row => {
+              if (row.id == obj.id) {
+                that.$refs.multipleTable.toggleRowSelection(row)
+              }
+            })
+          })
+        })
       },
       showDetail (row) {
         this.showData = [{
@@ -256,13 +308,26 @@
       },
       handleSelectionChange (selectdata) {
         this.selectionChange = selectdata
-        let selectionChangeText = []
+        // let selectionChangeText = []
+        // selectdata.map(data => {
+        //   selectionChangeText.push(data.name)
+        // })
+        // selectionChangeText = selectionChangeText.join(',')
+        // if (!this.filterFlag) {
         selectdata.map(data => {
-          selectionChangeText.push(data.name)
+          // selectionChangeText.push(data.name)
+          let flag = false
+          this.groupFrom.wordnameList.map((obj) => {
+            if (obj.id == data.id) {
+              flag = true
+            }
+          })
+          if (!flag) {
+            this.groupFrom.wordnameList.push(data)
+            this.groupFrom.wordname = this.groupFrom.wordname + ', ' + data.name
+          }
         })
-        selectionChangeText = selectionChangeText.join(',')
-        this.groupFrom.wordname = selectionChangeText
-        this.groupFrom.wordnameList = selectdata
+        // }
       },
       deleteWord (row) {
         let that = this
@@ -318,40 +383,53 @@
         this.isAdd = true
         this.titlename = '新增组合'
         this.dialogFormVisible = true
-        this.getWordListData()
         this.groupFrom = {
           wordname: '',
           groupname: '',
           description: '',
           wordnameList: []
         }
+        this.currentRow = []
+        this.getWordListData()
       },
       updateWord (row) {
-        this.getWordListData()
         this.isAdd = false
+        let wordname = []
+        row.entryList.map((obj) => {
+          wordname.push(obj.id)
+        })
         this.titlename = '修改组合'
         this.currentRow = row
         this.dialogFormVisible = true
-        this.groupFrom.wordname = row.entryNameLabel
+        this.groupFrom.wordname = wordname
         this.groupFrom.description = row.description
         this.groupFrom.groupname = row.name
         this.selectionChange = row.entryNameList
         this.groupFrom.wordnameList = row.entryList
+        this.getWordListData()
       },
       close () {
-        this.$nextTick(() => {
-          this.$refs['groupFrom'].resetFields()
-        })
+        // this.$nextTick(() => {
+        //   this.$refs['groupFrom'].resetFields()
+        // })
         // this.dialogFormVisible = false
       },
       save () {
         let that = this
         this.$refs.groupFrom.validate((valid) => {
           if (valid) {
+            let entryList = []
+            for (let i = 0; i < this.groupFrom.wordname.length; i++) {
+              for (let j = 0; j < this.wordData.length; j++) {
+                if (this.groupFrom.wordname[i] == this.wordData[j].id) {
+                  entryList.push(this.wordData[j])
+                }
+              }
+            }
             let params = {
               name: that.groupFrom.groupname,
               description: that.groupFrom.description,
-              entryList: this.groupFrom.wordnameList
+              entryList: entryList
             }
             let url = '/voice/combination/add'
             if (this.isAdd) {
@@ -431,5 +509,9 @@
   .el-dropdown-menu {
     background: #e6e6e6;
     padding: 0;
+  }
+
+  .group-name-box {
+    color: #ffffff;
   }
 </style>

@@ -15,7 +15,14 @@
         </el-menu>
       </div>
       <div class="ff-info">
-        <span class="user-info">{{username}}</span>
+        <el-dropdown @command="handleCommand">
+          <span class="el-dropdown-link user-info">
+           {{username}}<i class="el-icon-arrow-down el-icon-setting"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item icon="el-icon-edit">修改密码</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
         <span @click="exit" class="exitstyle el-icon-refresh-left">退出</span>
       </div>
     </div>
@@ -89,6 +96,9 @@
       }
     },
     methods: {
+      handleCommand () {
+        this.$router.push('/repassword')
+      },
       exit () {
         localStorage.clear()
         this.$router.push('/tologin')
@@ -122,6 +132,7 @@
       color: #ffffff;
       .user-info {
         margin-right: 20px;
+        color: #ffffff;
       }
       .exitstyle {
         cursor: pointer;

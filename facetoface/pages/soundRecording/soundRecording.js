@@ -37,7 +37,10 @@ Page({
    * 松开按钮结束语音识别
    */
   streamRecordEnd: function (e) {
-    wx.hideLoading()
+    wx.showLoading({
+      title: '信息识别中',
+      mask: true
+    })
     console.log('streamRecordEnd', e)
     manager.stop()
     // this.submitRecord()
@@ -45,7 +48,7 @@ Page({
   /**
 * 保存录音结果
 */
-  submitRecord(tempFilePath,status) {
+  submitRecord(tempFilePath, status) {
     let that = this
     wx.uploadFile({
       url: `${app.globalData.baseurl}/voice/weChat/submitRecord`,
@@ -69,68 +72,6 @@ Page({
         console.log(res, "上传结果")
       }
     })
-    // wx.downloadFile({
-    //   url: 'https://www.runoob.com/try/demo_source/horse.mp3', //仅为示例，并非真实的资源
-    //   success(res) {
-    //     // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
-    //     if (res.statusCode === 200) {
-
-    //       // var formData = new FormData();
-    //       // formData.append('file', res.tempFilePath);
-    //       // formData.append('entryId', that.data.words.entryList[that.data.index].id);
-    //       // formData.append('status', 1);
-    //       // formData.append('taskReceiverId', that.data.words.id);
-    //       wx.uploadFile({
-    //         url: `${app.globalData.baseurl}/voice/weChat/submitRecord`,
-    //         filePath: res.tempFilePath,
-    //         header: {
-    //           "Authorization": `Bearer ${app.globalData.Authorization}`
-    //          },
-    //         name: 'file',
-    //         formData: {
-    //           entryId: that.data.words.entryList[that.data.index].id,
-    //           status: 1,
-    //           taskReceiverId: that.data.words.id,
-    //           files: [res.tempFilePath]
-    //         },
-    //         // data: formData,
-    //         success(res) {
-    //           const data = res.data
-    //         },
-    //         complete(res) {
-    //           const data = res.data
-    //           console.log(res, "上传结果")
-    //         }
-    //       })
-
-    //       // let formData = new FormData()
-    //       // formData.append('file', res.tempFilePath);
-    //       // formData.append('entryId', that.data.words.entryList[that.data.index].id);
-    //       // formData.append('status', 1);
-    //       // formData.append('taskReceiverId', that.data.words.id);
-    //       // wx.request({
-    //       //   url: `${app.globalData.baseurl}/voice/weChat/submitRecord`,
-    //       //   header: {
-    //       //     "Authorization": `Bearer ${app.globalData.Authorization}`,
-    //       //     'content-type': 'application/x-www-form-urlencoded' //修改此处即可
-    //       //   },
-    //       //   data: formData,
-    //       //   method: 'POST',
-    //       //   success(res) {
-    //       //     if (res.data.code == 200) {
-    //       //       that.setData({
-    //       //         words: res.data.data
-    //       //       })
-    //       //     }
-    //       //   },
-    //       //   complete(res) {
-    //       //     console.log(res, 'receiveTaskList')
-    //       //   }
-    //       // })
-    //     }
-    //   }
-    // })
-
   },
   /**
      * 初始化语音识别回调
@@ -150,16 +91,28 @@ Page({
     }
     // 识别结束事件
     manager.onStop = (res) => {
+      wx.hideLoading()
       console.log('onStop', res)
       let text = res.result
+      if (text == "") {
+        wx.showToast({
+          title: '我没有听清,请您大声说话',
+          icon: 'none'
+        })
+        return
+      }
       let localword = that.data.info.entryList
       let speekWord = that.data.words
       let status = ''
-      if (text.indexOf(speekWord.name) > -1) {
+      text = text.replace(/,/g, '');
+      text = text.replace(/\./g, '');
+      text = text.replace(/，/g, '');
+      text = text.replace(/。/g, '');
+
+      if (text.indexOf(speekWord.name) > -1 || speekWord.name.indexOf(text) > -1) {
         status = 2
         this.submitRecord(res.tempFilePath, status)
         let nextIndex = that.data.index + 1
-
         if (nextIndex == localword.length) {
           wx.switchTab({
             url: '/pages/completeTask/completeTask',
