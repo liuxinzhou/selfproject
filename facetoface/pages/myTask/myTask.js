@@ -73,7 +73,7 @@ Page({
   startRecode(e) {
     console.log(e)
     wx.navigateTo({
-      url: `/pages/soundRecording/soundRecording?id=${e.currentTarget.dataset.id}`,
+      url: `/pages/recorderManager/recorderManager?id=${e.currentTarget.dataset.id}`,
     })
   },
   /**

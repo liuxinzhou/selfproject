@@ -37,7 +37,7 @@ App({
     wx.stopBackgroundAudio()
   },
   globalData: {
-    baseurl: 'https://wfsy.tsingmicro.com/framework',
+    baseurl: 'https://wfsy.tsingmicro.com/framework', //'http://152.136.13.150:8888/framework',
     history: [],
     appId:'wx493240612931798e',
     Authorization:'',
