@@ -30,10 +30,6 @@
     <!--</el-form-item>-->
     <!--</el-form>-->
     <!--</div>-->
-    <audio controls>
-      <source src="../../assets/aa.pcm" >
-      您的浏览器不支持 audio 元素。
-    </audio>
     <div class="main-box">
       <div class="btn-add">
         <el-button type="primary" @click="addWord('ruleForm')" size="small">添加</el-button>
