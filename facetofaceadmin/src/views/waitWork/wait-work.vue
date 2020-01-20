@@ -74,7 +74,7 @@
         :total="total">
       </el-pagination>
     </div>
-    <el-dialog :title="titlename" :visible.sync="dialogFormVisible">
+    <el-dialog :title="titlename" :visible.sync="dialogFormVisible" width="80%">
       <audio id="mp3">
         您的浏览器不支持 audio 元素。
       </audio>
@@ -110,6 +110,7 @@
         <el-table-column
           prop="createTime"
           align="center"
+          width="150"
           label="录制时间">
         </el-table-column>
         <el-table-column

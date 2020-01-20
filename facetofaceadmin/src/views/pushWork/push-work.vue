@@ -235,6 +235,21 @@
             </el-dropdown-menu>
           </el-dropdown>
         </el-form-item>
+        <el-form-item label="录音距离" label-width="120px" class="maginbox" prop="distance">
+          <el-select v-model="addFrom.distance" placeholder="请选择">
+            <el-option key="1" label="50厘米" value="1"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="录音语速" label-width="120px" class="maginbox" prop="speed">
+          <el-select v-model="addFrom.speed" placeholder="请选择">
+            <el-option key="1" label="正常语速" value="1"></el-option>
+            <el-option key="2" label="快速语速" value="2"></el-option>
+            <el-option key="3" label="慢速语速" value="3"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="录音次数" label-width="120px" class="maginbox" prop="times">
+          <el-input v-model.number="addFrom.times" autocomplete="off" max="10" min="1"></el-input>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="save">确 定</el-button>
@@ -255,6 +270,20 @@
           callback(new Error('请输入数字值'))
         } else {
           callback()
+        }
+      }
+      var checktimes = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('次数不能为空'))
+        }
+        if (!Number.isInteger(value)) {
+          callback(new Error('请输入数字值'))
+        } else {
+          if (value > 10) {
+            callback(new Error('次数必须小于10次'))
+          } else {
+            callback()
+          }
         }
       }
       return {
@@ -287,6 +316,17 @@
           price: [{ required: true, message: '请输入价格', trigger: 'blur' },
             { validator: checkAge, trigger: 'blur' }
           ],
+          distance: [
+            { required: true, message: '请选择录音距离', trigger: 'change' }
+          ],
+          speed: [
+            { required: true, message: '请选择录音语速', trigger: 'change' }
+          ],
+          times: [
+            { required: true, message: '请填写录音词语重复次数' },
+            { type: 'number', message: '年龄必须为数字值' },
+            { validator: checktimes, trigger: 'blur' }
+          ],
           taskControlName: [{ required: true, message: '请选择任务', trigger: 'change' }]
         },
         addFrom: {
@@ -295,7 +335,10 @@
           combinationId: '',
           price: '',
           taskControlId: '',
-          taskControlName: ''
+          taskControlName: '',
+          distance: '1',
+          speed: '1',
+          times: ''
         }
       }
     },
@@ -502,7 +545,10 @@
           combinationId: '',
           price: '',
           taskControlId: '',
-          taskControlName: ''
+          taskControlName: '',
+          distance: '1',
+          speed: '1',
+          times: ''
         }
       },
       updateWord (row) {
@@ -518,6 +564,9 @@
             this.addFrom.combinationName = `${row.id}/${row.combinationName}`
             this.addFrom.combinationId = `${row.id}`
             this.addFrom.price = row.price
+            this.addFrom.distance = row.distance + ''
+            this.addFrom.speed = row.speed + ''
+            this.addFrom.times = row.times
             this.addFrom.taskControlId = row.taskControlId
             this.addFrom.taskControlName = `${res.id}/${res.ageLabel}/${res.sexLabel}/${res.typeLabel}/${res.accentLabel}/${res.number}`
             this.dialogFormVisible = true
@@ -540,7 +589,10 @@
               combinationId: that.addFrom.combinationId,
               name: that.addFrom.name,
               price: that.addFrom.price,
-              taskControlId: that.addFrom.taskControlId
+              taskControlId: that.addFrom.taskControlId,
+              distance: that.addFrom.distance,
+              speed: that.addFrom.speed,
+              times: that.addFrom.times
             }
             let url = '/voice/task/add'
             if (this.isAdd) {

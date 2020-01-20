@@ -3,7 +3,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 // import qs from 'qs'
 
-let ROOT = 'https://wfsy.tsingmicro.com/framework' // http://152.136.13.150:8888
+let ROOT = 'https://wfsy.tsingmicro.com/framework' // http://152.136.13.150:8888  https://wfsy.tsingmicro.com
 Vue.use(VueAxios, axios)
 
 // 将全局的根地址绑定到axios的默认基础路径
