@@ -86,7 +86,7 @@
 
       <el-form :model="addFrom" size="small" ref="addFrom" :rules="rules">
         <el-form-item label="词条内容" label-width="120px" class="maginbox" prop="wordname">
-          <el-input v-model="addFrom.wordname" autocomplete="off" maxlength="10"></el-input>
+          <el-input v-model="addFrom.wordname" autocomplete="off" maxlength="30"></el-input>
         </el-form-item>
         <el-form-item label="已关联组合" label-width="120px" class="maginbox" prop="groupname">
           <el-select v-model="addFrom.groupname" placeholder="设置关联的组合" multiple filterable>

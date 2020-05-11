@@ -96,8 +96,12 @@
           label="操作"
           width="150">
           <template slot-scope="scope">
-            <el-button @click="stopWord(scope.row)" type="text" size="small" v-if="scope.row.wxStatus==4">停止</el-button>
-            <el-button @click="resetWork(scope.row)" type="text" size="small" v-if="scope.row.wxStatus==3">恢复
+            <el-button @click="showWork(scope.row)" type="text" size="small" v-if="scope.row.wxStatus==1">显示
+            </el-button>
+            <el-button @click="hiddeWork(scope.row)" type="text" size="small" v-if="scope.row.wxStatus!==1">隐藏
+            </el-button>
+            <el-button @click="stopWord(scope.row)" type="text" size="small" v-if="scope.row.status==1">停止</el-button>
+            <el-button @click="resetWork(scope.row)" type="text" size="small" v-if="scope.row.status==2">恢复
             </el-button>
             <el-button @click="updateWord(scope.row)" type="text" size="small">编辑</el-button>
             <el-button type="text" size="small" @click="deleteWord(scope.row)">删除</el-button>
@@ -115,7 +119,7 @@
     <el-dialog :title="titlename" :visible.sync="dialogFormVisible">
       <el-form :model="addFrom" size="small" ref="addFrom" :rules="rules">
         <el-form-item label="采集任务名称" label-width="120px" class="maginbox" prop="name">
-          <el-input v-model="addFrom.name" autocomplete="off" maxlength="10"></el-input>
+          <el-input v-model="addFrom.name" autocomplete="off" maxlength="30"></el-input>
         </el-form-item>
         <el-form-item label="词条组合" label-width="120px" class="maginbox" prop="combinationName">
           <el-dropdown>
@@ -279,8 +283,8 @@
         if (!Number.isInteger(value)) {
           callback(new Error('请输入数字值'))
         } else {
-          if (value > 10) {
-            callback(new Error('次数必须小于10次'))
+          if (value > 99) {
+            callback(new Error('次数必须小于99次'))
           } else {
             callback()
           }
@@ -425,9 +429,71 @@
           return '公示进行'
         }
       },
+      showWork (row) {
+        let that = this
+        this.$confirm('确认要公示该任务?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          that.Axios.allRequestPost(`/voice/task/show/${row.id}`, {}, res => {
+            if (res.code == 200) {
+              this.$message({
+                type: 'success',
+                showClose: true,
+                message: '显示成功!'
+              })
+              that.getListData()
+            } else {
+              this.$message({
+                type: 'error',
+                showClose: true,
+                message: '显示失败'
+              })
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            showClose: true,
+            message: '已取消'
+          })
+        })
+      },
+      hiddeWork (row) {
+        let that = this
+        this.$confirm('确认要停止公示该任务', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          that.Axios.allRequestPost(`voice/task/hide/${row.id}`, {}, res => {
+            if (res.code == 200) {
+              this.$message({
+                type: 'success',
+                showClose: true,
+                message: '停止成功!'
+              })
+              that.getListData()
+            } else {
+              this.$message({
+                type: 'error',
+                showClose: true,
+                message: '停止失败'
+              })
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            showClose: true,
+            message: '已取消'
+          })
+        })
+      },
       resetWork (row) {
         let that = this
-        this.$confirm('此操作将恢复该词条, 是否继续?', '提示', {
+        this.$confirm('此操作将恢复该任务, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -452,13 +518,13 @@
           this.$message({
             type: 'info',
             showClose: true,
-            message: '已取消删除'
+            message: '已取消'
           })
         })
       },
       stopWord (row) {
         let that = this
-        this.$confirm('此操作将停止该词条, 是否继续?', '提示', {
+        this.$confirm('此操作将停止该任务, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -483,13 +549,13 @@
           this.$message({
             type: 'info',
             showClose: true,
-            message: '已取消删除'
+            message: '已取消'
           })
         })
       },
       deleteWord (row) {
         let that = this
-        this.$confirm('此操作将删除该词条, 是否继续?', '提示', {
+        this.$confirm('此操作将删除该任务, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -513,7 +579,7 @@
           this.$message({
             type: 'info',
             showClose: true,
-            message: '已取消删除'
+            message: '已取消'
           })
         })
       },
@@ -561,8 +627,8 @@
           if (res.code == 200) {
             res = res.data
             this.addFrom.name = row.name
-            this.addFrom.combinationName = `${row.id}/${row.combinationName}`
-            this.addFrom.combinationId = `${row.id}`
+            this.addFrom.combinationName = `${row.combinationId}/${row.combinationName}`
+            this.addFrom.combinationId = `${row.combinationId}`
             this.addFrom.price = row.price
             this.addFrom.distance = row.distance + ''
             this.addFrom.speed = row.speed + ''

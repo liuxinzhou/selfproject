@@ -123,16 +123,6 @@
       },
       headerRowClassName () {
         return 'background: #2196f3;color:#ffffff'
-      },
-      save () {
-        this.$refs.addFrom.validate((valid) => {
-          if (valid) {
-            alert('submit!')
-          } else {
-            console.log('error submit!!')
-            return false
-          }
-        })
       }
     }
   }

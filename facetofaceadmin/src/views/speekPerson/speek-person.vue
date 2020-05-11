@@ -102,25 +102,24 @@
           <el-select v-model="addFrom.agerange" placeholder="请选择">
             <el-option
               v-for="item in ageranges"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              :key="item.code"
+              :label="item.name"
+              :value="item.code">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="性别" v-model="addFrom.sex" placeholder="请选择" label-width="120px" prop="sex">
           <el-radio-group v-model="addFrom.sex">
-            <el-radio :label="1">男</el-radio>
-            <el-radio :label="2">女</el-radio>
+            <el-radio :label="item.code" v-for="item in sexs" :key="item.code">{{item.name}}</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="口音" label-width="120px" class="maginbox" prop="kouyin">
           <el-select v-model="addFrom.kouyin" placeholder="请选择">
             <el-option
               v-for="item in kouyins"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              :key="item.code"
+              :label="item.name"
+              :value="item.code">
             </el-option>
           </el-select>
         </el-form-item>
@@ -128,9 +127,9 @@
           <el-select v-model="addFrom.kouyinType" placeholder="请选择">
             <el-option
               v-for="item in kouyinTypes"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              :key="item.code"
+              :label="item.name"
+              :value="item.code">
             </el-option>
           </el-select>
         </el-form-item>
@@ -147,44 +146,10 @@
     data () {
       return {
         total: 0,
-        ageranges: [{
-          value: '1',
-          label: '儿童 1-9 岁'
-        }, {
-          value: '2',
-          label: '少年 10-17 岁'
-        }, {
-          value: '3',
-          label: '青年 18-40 岁'
-        }, {
-          value: '4',
-          label: '中年 41-64 岁'
-        }, {
-          value: '5',
-          label: '老年 65 以上'
-        }],
-        kouyins: [{
-          value: '1',
-          label: '普通话口音'
-        }, {
-          value: '2',
-          label: '方言'
-        }],
-        kouyinTypes: [
-          {
-            value: '1',
-            label: '南方口音'
-          }, {
-            value: '2',
-            label: '北方口音'
-          }, {
-            value: '3',
-            label: '两广口音'
-          }, {
-            value: '4',
-            label: '东北口音'
-          }
-        ],
+        ageranges: [],
+        kouyins: [],
+        kouyinTypes: [],
+        sexs: [],
         dialogFormVisible: false,
         titlename: '',
         isAdd: true,
@@ -219,9 +184,33 @@
       }
     },
     mounted () {
+      this.getInitData()
       this.getListData()
     },
     methods: {
+      getInitData () {
+        let that = this
+        this.Axios.allRequestGet('/voice/speaker/getEnumList/1', {}, res => {
+          if (res.code == 200) {
+            that.ageranges = res.data
+          }
+        })
+        this.Axios.allRequestGet('/voice/speaker/getEnumList/2', {}, res => {
+          if (res.code == 200) {
+            that.sexs = res.data
+          }
+        })
+        this.Axios.allRequestGet('/voice/speaker/getEnumList/3', {}, res => {
+          if (res.code == 200) {
+            that.kouyins = res.data
+          }
+        })
+        this.Axios.allRequestGet('/voice/speaker/getEnumList/4', {}, res => {
+          if (res.code == 200) {
+            that.kouyinTypes = res.data
+          }
+        })
+      },
       resetForm () {
         this.ruleForm = {
           agerange: '',

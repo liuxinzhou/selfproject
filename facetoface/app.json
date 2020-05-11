@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/taskList/taskList",
+    "pages/speek/speek",
     "pages/recorderManager/recorderManager",
     "pages/iatTaste/iatTaste",
     "pages/soundRecording/soundRecording",

@@ -10,7 +10,6 @@ const PushWork = resolve => require(['@/views/pushWork/push-work'], resolve)
 const WaitWork = resolve => require(['@/views/waitWork/wait-work'], resolve)
 const CompteleWork = resolve => require(['@/views/compteleWork/comptele-work'], resolve)
 const WordTotal = resolve => require(['@/views/wordTotal/word-total'], resolve)
-
 Vue.use(Router)
 
 var router = new Router({

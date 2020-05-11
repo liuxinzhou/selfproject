@@ -363,7 +363,7 @@
         this.titlename = '修改词条'
         this.currentRow = row
         this.dialogFormVisible = true
-        this.addFrom.speekPerson = `${row.id}/${row.ageLabel}/${row.sexLabel}/${row.typeLabel}/${row.accentLabel}`
+        this.addFrom.speekPerson = `${row.speakerId}/${row.ageLabel}/${row.sexLabel}/${row.typeLabel}/${row.accentLabel}`
         this.addFrom.speekPersonId = row.speakerId
         this.addFrom.number = row.number
       },
@@ -383,7 +383,7 @@
             }
             let params = {
               number: that.addFrom.number,
-              speakerId: this.addFrom.speekPerson.split('/')[0]
+              speakerId: that.addFrom.speekPersonId
             }
             let url = '/voice/taskControl/add'
             if (this.isAdd) {

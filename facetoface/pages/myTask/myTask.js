@@ -17,55 +17,72 @@ Page({
   },
   gettaskList(authorization) {
     let that = this
-    wx.request({
-      url: `${app.globalData.baseurl}/voice/weChat/todoTaskList`,
-      header: {
-        "Authorization": `Bearer ${app.globalData.Authorization}`
-      },
-      data: {
-        current: that.data.currentPage,
-        size: 10
-      },
-      method: 'POST',
-      success(res) {
-        if (res.data.code == 200) {
-          let oldreceiveTaskList = that.data.receiveTaskList
-          res.data.data.records.map((obj) => {
-            let flag = false
-            oldreceiveTaskList.map(newobj => {
-              if (obj.id == newobj.id) {
-                flag = true
+    if (app.globalData.Authorization && wx.getStorageSync('userifno')) {
+
+      wx.request({
+        url: `${app.globalData.baseurl}/voice/weChat/todoTaskList`,
+        header: {
+          "Authorization": `Bearer ${app.globalData.Authorization}`
+        },
+        data: {
+          current: that.data.currentPage,
+          size: 10
+        },
+        method: 'POST',
+        success(res) {
+          if (res.data.code == 200) {
+            let oldreceiveTaskList = that.data.receiveTaskList
+            res.data.data.records.map((obj) => {
+              let flag = false
+              oldreceiveTaskList.map(newobj => {
+                if (obj.id == newobj.id) {
+                  flag = true
+                }
+              })
+              if (!flag) {
+                oldreceiveTaskList.push(obj)
               }
             })
-            if (!flag) {
-              oldreceiveTaskList.push(obj)
-            }
-          })
 
-          that.setData({
-            receiveTaskList: oldreceiveTaskList,
-            total: res.data.data.total
-          })
-        } else {
-          wx.showModal({
-            title: '提示',
-            content: '请先设置个人信息',
-            success(res) {
-              if (res.confirm) {
-                wx.switchTab({
-                  url: '/pages/setting/setting',
-                })
-              } else if (res.cancel) {
-                console.log('用户点击取消')
+            that.setData({
+              receiveTaskList: oldreceiveTaskList,
+              total: res.data.data.total
+            })
+          } else {
+            wx.showModal({
+              title: '提示',
+              content: '请先设置个人信息',
+              success(res) {
+                if (res.confirm) {
+                  wx.switchTab({
+                    url: '/pages/setting/setting',
+                  })
+                } else if (res.cancel) {
+                  console.log('用户点击取消')
+                }
               }
-            }
-          })
+            })
+          }
+        },
+        complete(res) {
+          console.log(res, 'receiveTaskList')
         }
-      },
-      complete(res) {
-        console.log(res, 'receiveTaskList')
-      }
-    })
+      })
+    } else {
+      wx.showModal({
+        title: '提示',
+        content: '请先设置个人信息',
+        success(res) {
+          if (res.confirm) {
+            wx.switchTab({
+              url: '/pages/setting/setting',
+            })
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+    }
   },
   /**
    * 开始录音
@@ -88,7 +105,8 @@ Page({
    */
   onShow: function () {
     this.setData({
-      receiveTaskList: []
+      receiveTaskList: [],
+      currentPage:1
     })
     this.gettaskList()
   },

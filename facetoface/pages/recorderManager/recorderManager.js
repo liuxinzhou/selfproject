@@ -10,7 +10,7 @@ Page({
     speekCount: 1,
     speeking: false,
     speekFlag: false,
-    info:'',
+    info: '',
     audioCtx: '',
     words: [],
     index: 0,
@@ -23,7 +23,8 @@ Page({
   startRecord() {
     let that = this
     this.data.recorderManager.start({
-      format:'wav'
+      format: 'mp3',
+      sampleRate:16000
     })
     this.data.recorderManager.onStart((e) => {
       that.setData({
@@ -45,33 +46,40 @@ Page({
     this.data.recorderManager.stop()
     this.data.recorderManager.onStop((e) => {
       console.log(e)
-      this.submitRecord(e.tempFilePath)
-      // 松开手结束录音
-      clearInterval(interval)
-      // 判断是否读完该词语
-      if (this.data.speekSum == this.data.info.times) {
-        if (this.data.index == (this.data.info.entryList.length - 1)) {
-          wx.switchTab({
-            url: '/pages/completeTask/completeTask',
-          })
+      if (e.fileSize>0) {
+        this.submitRecord(e.tempFilePath)
+        // 松开手结束录音
+        clearInterval(interval)
+        // 判断是否读完该词语
+        if (this.data.speekSum == this.data.info.times) {
+          if (this.data.index == (this.data.info.entryList.length - 1)) {
+            wx.switchTab({
+              url: '/pages/completeTask/completeTask',
+            })
+          } else {
+            this.setData({
+              speekCount: 1,
+              speeking: false,
+              speekFlag: false,
+              speekSum: 1,
+              index: this.data.index + 1,
+              words: this.data.info.entryList[this.data.index + 1]
+            })
+          }
+
         } else {
           this.setData({
-            speekCount: 1,
+            speekCount: 0,
             speeking: false,
-            speekFlag: false,
-            speekSum: 1,
-            index: this.data.index + 1,
-            words: this.data.info.entryList[this.data.index + 1]
+            speekSum: this.data.speekSum + 1
           })
         }
-
-      } else {
-        this.setData({
-          speekCount: 0,
-          speeking: false,
-          speekSum: this.data.speekSum + 1
-        })
       }
+      clearInterval(interval)
+      this.setData({
+        speekCount: 0,
+        speeking: false
+      })
     })
   },
   /**
@@ -105,7 +113,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
+  onLoad: function (options) {
     let recorderManager = wx.getRecorderManager()
     this.setData({
       recorderManager: recorderManager
@@ -123,9 +131,9 @@ Page({
       method: 'POST',
       success(res) {
         if (res.data.code == 200) {
-          if(res.data.data.speed==1){
+          if (res.data.data.speed == 1) {
             res.data.data.speed = '正常语速'
-          } else if (res.data.data.speed == 2){
+          } else if (res.data.data.speed == 2) {
             res.data.data.speed = '快速语速'
           } else if (res.data.data.speed == 3) {
             res.data.data.speed = '慢速语速'
@@ -133,6 +141,24 @@ Page({
           that.setData({
             info: res.data.data,
             words: res.data.data.entryList[that.data.index]
+          })
+        } else {
+          wx.showModal({
+            title: '提示',
+            content: "该任务已经被停止",
+            success(res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+                wx.switchTab({
+                  url: '/pages/myTask/myTask',
+                })
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+                wx.switchTab({
+                  url: '/pages/myTask/myTask',
+                })
+              }
+            }
           })
         }
       },
@@ -146,54 +172,54 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {
+  onReady: function () {
     this.audioCtx = wx.createAudioContext('myAudio')
   },
   /**
    * 播放示例录音
    */
-  audioPlay: function() {
+  audioPlay: function () {
     this.audioCtx.play()
   },
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
+  onShow: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function() {
+  onHide: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function() {
+  onUnload: function () {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function() {
+  onPullDownRefresh: function () {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function() {
+  onReachBottom: function () {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
 
   }
 })

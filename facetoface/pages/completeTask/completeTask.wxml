@@ -6,7 +6,7 @@
       <view class="count">词条个数:{{item.entryCount}}</view>
       <view class="money">
         <view class="time">{{item.collectTime}}</view>
-        <view class="number">{{item.price}}元</view>
+        <view class="number">{{item.price}}</view>
       </view>
     </view>
     <view>

@@ -1,0 +1,26 @@
+<view>
+  <view class="banner">
+    <image src="../../images/timg.jpeg" mode="scaleToFill"></image>
+    <view class="dateshow">今日{{nowdate}}</view>
+  </view>
+  <view class="company">
+    <view class="section__title">请选择你要进入的企业</view>
+    <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}" range-key="companyName">
+      <view class="picker">
+        <view>
+          <text>当前选择：</text>
+          <text>{{array[index].companyName}}</text>
+          <text class="palcetest" wx:if="{{index==''}}">你还未选择要进入的企业</text>
+          <view class="errortext" wx:if="{{showerror}}">
+            你还未选择要进入的企业
+          </view>
+        </view>
+        <view> ></view>
+      </view>
+    </picker>
+
+  </view>
+  <view class="button-box">
+    <button class="submit-btn" bindtap="intosetInfo"> 进入</button>
+  </view>
+</view>

@@ -42,12 +42,10 @@ Page({
           wx.showModal({
             title: '提示',
             content: res.data.message,
+            showCancel:false,
             success(res) {
               if (res.confirm) {
                 console.log('用户点击确定')
-                wx.switchTab({
-                  url: '/pages/setting/setting',
-                })
               } else if (res.cancel) {
                 console.log('用户点击取消')
               }
@@ -64,77 +62,78 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    let that = this
-    wx.login({
-      success: function(res) {
-        wx.request({
-          url: `${app.globalData.baseurl}/wechat/user/code2Session?code=${res.code}`,
-          header: {
-            'e-app-id': app.globalData.appId
-          },
-          method: 'GET',
-          success(res) {
-            if (res.data.code == 200) {
-              if (res.data.data.authorization && wx.getStorageSync('userifno')){
-                 app.globalData.Authorization = res.data.data.authorization
-                app.globalData.sessionKey = res.data.data.sessionKey
-                 that.gettaskList(res.data.data.authorization)
-                 that.setData({
-                   authorization:true,
-                 })
-               }else{
-                app.globalData.sessionKey = res.data.data.sessionKey
-                 wx.switchTab({
-                   url: '/pages/setting/setting',
-                 })
-               }
-            }
-          },
-          complete(res) {
-            console.log(res, 'dasfasf')
-          }
-        })
-      }
-    })
-
   },
   gettaskList(authorization) {
     let that = this
-    wx.request({
-      url: `${app.globalData.baseurl}/voice/weChat/receiveTaskList`,
-      header: {
-        "Authorization": `Bearer ${app.globalData.Authorization}`
-      },
-      data: {
-        current: that.data.currentPage,
-        size: 10
-      },
-      method: 'POST',
-      success(res) {
-        if (res.data.code == 200) {
-          let oldreceiveTaskList = that.data.receiveTaskList
-          res.data.data.records.map((obj)=>{
-            let flag=false
-            oldreceiveTaskList.map(newobj=>{
-              if (obj.id == newobj.id){
-                flag=true
+    if (app.globalData.Authorization && wx.getStorageSync('userifno')){
+      wx.request({
+        url: `${app.globalData.baseurl}/voice/weChat/receiveTaskList`,
+        header: {
+          "Authorization": `Bearer ${app.globalData.Authorization}`
+        },
+        data: {
+          current: that.data.currentPage,
+          size: 10
+        },
+        method: 'POST',
+        success(res) {
+          if (res.data.code == 200) {
+            let oldreceiveTaskList = that.data.receiveTaskList
+            res.data.data.records.map((obj) => {
+              let flag = false
+              oldreceiveTaskList.map(newobj => {
+                if (obj.id == newobj.id) {
+                  flag = true
+                }
+              })
+              if (!flag) {
+                oldreceiveTaskList.push(obj)
               }
             })
-            if (!flag){
-              oldreceiveTaskList.push(obj)
+
+            that.setData({
+              receiveTaskList: oldreceiveTaskList,
+              total: res.data.data.total
+            })
+          }
+        },
+        complete(res) {
+          console.log(res, 'receiveTaskList')
+        }
+      })
+    }else{
+      wx.login({
+        success: function (res) {
+          wx.request({
+            url: `${app.globalData.baseurl}/wechat/user/code2Session?code=${res.code}`,
+            header: {
+              'e-app-id': app.globalData.appId
+            },
+            method: 'GET',
+            success(res) {
+              if (res.data.code == 200) {
+                if (res.data.data.authorization && wx.getStorageSync('userifno')) {
+                  app.globalData.Authorization = res.data.data.authorization
+                  app.globalData.sessionKey = res.data.data.sessionKey
+                  that.gettaskList(res.data.data.authorization)
+                  that.setData({
+                    authorization: true,
+                  })
+                } else {
+                  app.globalData.sessionKey = res.data.data.sessionKey
+                  wx.switchTab({
+                    url: '/pages/setting/setting',
+                  })
+                }
+              }
+            },
+            complete(res) {
+              console.log(res, 'dasfasf')
             }
           })
-
-          that.setData({
-            receiveTaskList: oldreceiveTaskList,
-            total: res.data.data.total
-          })
         }
-      },
-      complete(res) {
-        console.log(res, 'receiveTaskList')
-      }
-    })
+      })
+    }
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -147,13 +146,19 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    console.log(app.globalData.Authorization,'AuthorizationAuthorizationAuthorizationAuthorization')
+    this.setData({
+      receiveTaskList: [],
+      currentPage:1
+    })
+    this.gettaskList()
+  },
+  isauthoriez(){
+    console.log(app.globalData.Authorization, 'AuthorizationAuthorizationAuthorizationAuthorization')
     this.setData({
       receiveTaskList: []
     })
-    if (app.globalData.Authorization && wx.getStorageSync('userifno')){
-      this.gettaskList()
-    }else{
+    if (app.globalData.Authorization && wx.getStorageSync('userifno')) {
+    } else {
       wx.showModal({
         title: '提示',
         content: "请设置个人信息",
@@ -170,7 +175,6 @@ Page({
       })
     }
   },
-
   /**
    * 生命周期函数--监听页面隐藏
    */

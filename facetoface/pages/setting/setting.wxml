@@ -49,3 +49,4 @@
   </view>
 </view>
 <button class="save" bindgetuserinfo="bindgetuserinfo" open-type="getUserInfo">保存</button>
+<view class="version">V1.2.1</view>

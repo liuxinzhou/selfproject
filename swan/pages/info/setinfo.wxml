@@ -1,0 +1,69 @@
+<view>
+   <view class="banner">
+    <view>{{companyName}}欢迎你!</view>
+    <view>今日{{nowdate}}</view>
+  </view>
+  <view class="item-box">
+    <view class="title">基本信息</view>
+    <view>
+      <view class="item-label-box">
+        <text class="requised">*</text>姓名
+      </view>
+      <view class="input-box">
+        <input class="weui-input" maxlength="10" auto-focus placeholder="请输入您的姓名" bindblur="bindUsername" value="{{person.userName}}" placeholder-class="placeholderClass" /> </view>
+    </view>
+    <view class="item-label-box">
+      <text class="requised">*</text>手机号
+    </view>
+    <view class="input-box">
+      <input class="weui-input" maxlength="10" auto-focus placeholder="请输入您的手机号" bindblur="bindUsername" value="{{person.userName}}" placeholder-class="placeholderClass" /> </view>
+    <view class="item-label-box">
+      <text class="requised">*</text>身份证号
+    </view>
+    <view class="input-box">
+      <input class="weui-input" maxlength="10" auto-focus placeholder="请输入您的身份证号" bindblur="bindUsername" value="{{person.userName}}" placeholder-class="placeholderClass" /> </view>
+  </view>
+  <view class="item-box">
+    <view class="title">症状信息</view>
+    <view>
+      <view class="labelwenti">
+        本人是否有发热咳嗽症状
+      </view>
+      <view class="valuelist">
+        <radio-group class="radio-group" bindchange="isSelfFeverCoughChange">
+          <radio class="radio-box" value="1" checked="{{person.userinfo.isSelfFeverCough==1}}">
+            <text>无</text>
+          </radio>
+          <radio class="radio-box" value="2" checked="{{person.userinfo.isSelfFeverCough==2}}">
+            <text>有</text>
+          </radio>
+        </radio-group>
+      </view>
+      <view class="labelwenti">
+        家人是否有发热咳嗽症状
+      </view>
+      <view class="valuelist">
+        <radio-group class="radio-group" bindchange="isOtherFeverCoughChange">
+          <radio class="radio-box" value="1" checked="{{person.userinfo.isOtherFeverCough==1}}">
+            <text>无</text>
+          </radio>
+          <radio class="radio-box" value="2" checked="{{person.userinfo.isOtherFeverCough==2}}">
+            <text>有</text>
+          </radio>
+        </radio-group>
+      </view>
+      <view class="labelwenti">
+        现在所在住址
+      </view>
+      <view class="address-box">
+        <textarea placeholder="请输入现在所在地址" bindblur="bindAddress" value="{{person.userinfo.currAddress}}" />
+      </view>
+      <view class="labelwenti">
+        今日体温
+      </view>
+      <input placeholder="请输入你的体温" class="temperature" bindblur="bindtemperature" value="{{person.userinfo.temperature}}" />
+    </view>
+  </view>
+  <button class="submitbtn" bindtap="saveUserInfo">提交</button>
+
+</view>

@@ -89,6 +89,7 @@
         :data="taskReceiverData"
         border
         size="small"
+        v-loading="loading"
         @selection-change="handleSelectionChange"
         height="500"
         style="width: 100%">
@@ -150,6 +151,7 @@
       return {
         dialogFormVisible: false,
         titlename: '',
+        loading: false,
         isAdd: true,
         currentPage: 1,
         total: 0,
@@ -213,6 +215,7 @@
         this.getListData()
       },
       taskReceiverDetail (id) {
+        this.loading = true
         let params = {
           current: this.taskReceiverPage,
           size: 10,
@@ -221,6 +224,7 @@
         let that = this
         this.Axios.allRequestPost('/voice/taskReceiverDetail/getPageList', params, res => {
           if (res.code == 200) {
+            this.loading = false
             that.taskReceiverData = res.data.records
             that.taskReceiverTotal = res.data.total
           }
@@ -355,6 +359,8 @@
         this.isAdd = false
         this.titlename = '修改词条'
         this.dialogFormVisible = true
+        this.currentRow = row
+        this.taskReceiverPage = 1
         this.taskReceiverDetail(row.id)
       },
       handleSelectionChange (auditRecode) {

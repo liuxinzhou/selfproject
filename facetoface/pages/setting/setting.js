@@ -7,7 +7,7 @@ Page({
   data: {
     agearray: [{ key: '1', value: '儿童(1-9)' }, { key: '2', value: '少年(10-17)' }, { key: '3', value: '青年(18-40)' }, { key: '4', value: '中年(41-64)' }, { key: '5', value: '老年(65以上)' }],
     ageindex: '',
-    accentarray: [{ key: '1', value: '普通话' }, { key: '2', value: '方言' }],
+    accentarray: [{ key: '1', value: '普通话' }],
     accentindex: '',
     accentTypeArray: [{ key: '1', value: '南方口音' }, { key: '2', value: '北方口音' }, { key: '3', value: '两广口音' }, { key: '4', value: '东北口音' }],
     accentTypeIndex: '',
@@ -15,7 +15,7 @@ Page({
       { name: '1', value: '男' },
       { name: '2', value: '女' }
     ],
-    sexindex: ''
+    sexindex: '-1'
   },
   radioChange: function (e) {
     console.log('radio发生change事件，携带value值为：', e.detail.value)
@@ -28,10 +28,10 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      ageindex: wx.getStorageSync('ageindex')*1,
-      sexindex: wx.getStorageSync('sexindex')*1,
-      accentindex: wx.getStorageSync('accentindex')*1,
-      accentTypeIndex: wx.getStorageSync('accentTypeIndex')*1
+      ageindex: wx.getStorageSync('ageindex')?wx.getStorageSync('ageindex')*1:'',
+      sexindex: wx.getStorageSync('sexindex')?wx.getStorageSync('sexindex')*1:'',
+      accentindex: wx.getStorageSync('accentindex')?wx.getStorageSync('accentindex')*1:'',
+      accentTypeIndex: wx.getStorageSync('accentTypeIndex')?wx.getStorageSync('accentTypeIndex')*1:''
     })
   },
   bindPickerChange: function (e) {
@@ -52,6 +52,29 @@ Page({
   },
   bindgetuserinfo(e) {
     console.log(e)
+    let that = this
+    wx.login({
+      success: function (res) {
+        wx.request({
+          url: `${app.globalData.baseurl}/wechat/user/code2Session?code=${res.code}`,
+          header: {
+            'e-app-id': app.globalData.appId
+          },
+          method: 'GET',
+          success(res) {
+            if (res.data.code == 200) {
+              app.globalData.sessionKey = res.data.data.sessionKey
+              that.getUserInfo(e)
+            }
+          },
+          complete(res) {
+            console.log(res, 'dasfasf')
+          }
+        })
+      }
+    })
+  },
+  getUserInfo(e){
     let that = this
     wx.request({
       url: `${app.globalData.baseurl}/wechat/user/bind`,

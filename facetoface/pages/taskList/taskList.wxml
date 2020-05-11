@@ -5,14 +5,20 @@
         <view class="name">{{item.name}}</view>
         <view class="money">
           <view class="time">{{item.createTime}}</view>
-          <view class="number">{{item.price}}元</view>
+          <view class="number">{{item.price}}</view>
         </view>
         <view wx:if="{{item.full}}" class="errortip">
           领取人数已达上线
         </view>
+         <view wx:if="{{!item.full && item.status==1}}" class="stautstip">
+          可领取
+        </view>
+        <view wx:if="{{!item.full && item.status==2}}" class="errortip">
+          已停止
+        </view>
       </view>
       <view>
-        <button class="btn-style-dis" data-id="{{item.id}}" wx:if="{{item.full}}">领取</button>
+        <button class="btn-style-dis" data-id="{{item.id}}" wx:if="{{item.full || item.status==2}}">领取</button>
         <button class="btn-style" bindtap="receiveWork" data-id="{{item.id}}" wx:else>领取</button>
       </view>
     </view>

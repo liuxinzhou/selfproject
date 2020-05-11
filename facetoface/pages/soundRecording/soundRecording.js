@@ -198,12 +198,50 @@ Page({
       method: 'POST',
       success(res) {
         if (res.data.code == 200) {
+          if (res.data.data.status==2){
+            wx.showModal({
+              title: '提示',
+              content: "请设置个人信息",
+              success(res) {
+                if (res.confirm) {
+                  console.log('用户点击确定')
+                  wx.switchTab({
+                    url: 'pages/myTask/myTask',
+                  })
+                } else if (res.cancel) {
+                  console.log('用户点击取消')
+                  wx.switchTab({
+                    url: 'pages/myTask/myTask',
+                  })
+                }
+              }
+            })
+            return
+          }
           res.data.data.entryList.map(obj => {
             obj.speek = 0
           })
           that.setData({
             info: res.data.data,
             words: res.data.data.entryList[that.data.index]
+          })
+        }else{
+          wx.showModal({
+            title: '提示',
+            content: "请设置个人信息",
+            success(res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+                wx.switchTab({
+                  url: 'pages/myTask/myTask',
+                })
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+                wx.switchTab({
+                  url: 'pages/myTask/myTask',
+                })
+              }
+            }
           })
         }
       },

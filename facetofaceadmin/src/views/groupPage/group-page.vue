@@ -68,7 +68,7 @@
         :total="total">
       </el-pagination>
     </div>
-    <el-dialog :title="titlename" :visible.sync="dialogFormVisible" @close="close">
+    <el-dialog :title="titlename" :visible.sync="dialogFormVisible">
       <el-form :model="groupFrom" size="small" ref="groupFrom" :rules="rules">
         <el-form-item label="组合名称" label-width="120px" class="maginbox" prop="groupname">
           <el-input v-model="groupFrom.groupname" autocomplete="off"></el-input>
@@ -298,9 +298,6 @@
 
         this.showDetailFlag = true
       },
-      submitForm () {
-        console.log('dsaf')
-      },
       clearSelectionChange () {
         this.selectionChange = []
         this.selectionChangeText = ''
@@ -362,12 +359,10 @@
         })
       },
       handleSizeChange (page) {
-        console.log(page)
         this.currentPage = page
         this.getListData()
       },
       handleCurrentChange (page) {
-        console.log(page)
         this.currentPage = page
         this.getListData()
       },
@@ -408,12 +403,6 @@
         this.groupFrom.wordnameList = row.entryList
         this.getWordListData()
       },
-      close () {
-        // this.$nextTick(() => {
-        //   this.$refs['groupFrom'].resetFields()
-        // })
-        // this.dialogFormVisible = false
-      },
       save () {
         let that = this
         this.$refs.groupFrom.validate((valid) => {
@@ -448,7 +437,6 @@
               }
             })
           } else {
-            console.log('error submit!!')
             return false
           }
         })

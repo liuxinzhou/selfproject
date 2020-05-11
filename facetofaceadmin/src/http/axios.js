@@ -77,7 +77,7 @@ Vue.axios.interceptors.response.use(
           if (resultMap.code == 200) {
             return response
           } else if (resultMap.code == 403) {
-            // window.location.href = '/tologin'
+            window.location.href = '/tologin'
           } else {
             return response
           }
@@ -88,7 +88,7 @@ Vue.axios.interceptors.response.use(
     }
   },
   (error) => {
-    // window.location.href = '/tologin'
+    window.location.href = '/tologin'
     return Promise.reject(error)
   }
 )

@@ -4,7 +4,7 @@
       <view class="name">{{item.taskName}}</view>
       <view class="money">
         <view class="time">{{item.createTime}}</view>
-        <view class="number">{{item.price}}元</view>
+        <view class="number">{{item.price}}</view>
       </view>
     </view>
     <view bindtap="startRecode" data-id="{{item.id}}">

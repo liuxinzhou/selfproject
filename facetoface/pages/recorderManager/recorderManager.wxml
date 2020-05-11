@@ -25,10 +25,11 @@
   </view>
   <view class="proess">
     <view class="proess-text" wx:if="{{speeking}}">{{speekCount}}秒</view>
-    <view class="proess-text" wx:else>按住开始录音</view>
+    <view class="proess-text" wx:else>等待开始</view>
   </view>
-  <view class="play-btn-yuanchen">
-    <image src="../../image/tabbar/sound.png" class="play-btn-icon" bindtouchstart="startRecord" bindtouchend="stopRecord"></image>
+  <view class="play-btn-yuanchen" bindtouchstart="startRecord" bindtouchend="stopRecord">
+    <!-- <image src="../../image/tabbar/sound.png" class="play-btn-icon" bindtouchstart="startRecord" bindtouchend="stopRecord"></image> -->
+     <view class="proess-text-back">按住录音</view>
     <!-- <text class="reset">重新录制</text> -->
   </view>
 </view>
