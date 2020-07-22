@@ -1,4 +1,6 @@
 const app = getApp()
+const conf = require('../../utils/conf.js')
+
 Page({
 
   /**
@@ -7,7 +9,8 @@ Page({
   data: {
     receiveTaskList: [],
     total: 0,
-    currentPage: 1
+    currentPage: 1,
+    languageIndex:""
   },
 
   /**
@@ -33,6 +36,41 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+    let that = this
+    that.setData({
+      language: app.globalData.language,
+      languageIndex:app.globalData.languageIndex
+    })
+    wx.setNavigationBarTitle({
+      title: app.globalData.language.navigationBarTitle,
+    })
+    if (app.globalData.language == "") {
+      wx.showActionSheet({
+        itemList: ['汉语', 'English'],
+        success(res) {
+          console.log("navigationBarTitle生命周期函数--监听页面加载")
+          app.globalData.language = conf.language[res.tapIndex]
+          app.globalData.languageIndex=res.tapIndex + ""
+          wx.setNavigationBarTitle({
+            title: app.globalData.language.navigationBarTitle,
+          })
+          that.setData({
+            language: app.globalData.language,
+            languageIndex:res.tapIndex + ""
+          })
+        },
+        fail(res) {
+          console.log("navigationBarTitle生命周期函数--监听页面加载")
+          app.globalData.language = conf.language[0]
+          wx.setNavigationBarTitle({
+            title: app.globalData.language.navigationBarTitle,
+          })
+          that.setData({
+            language: app.globalData.language
+          })
+        }
+      })
+    }
     this.setData({
       receiveTaskList: [],
       currentPage: 1
@@ -73,8 +111,9 @@ Page({
             })
           } else {
             wx.showModal({
-              title: '提示',
-              content: '请先设置个人信息',
+              title: that.data.language.toast,
+              content: that.data.language.setingToast,
+              confirmText:that.data.language.submit,
               success(res) {
                 if (res.confirm) {
                   wx.switchTab({
@@ -93,8 +132,10 @@ Page({
       })
     } else {
       wx.showModal({
-        title: '提示',
-        content: '请先设置个人信息',
+        title: that.data.language.toast,
+        content: that.data.language.setingToast,
+        confirmText:that.data.language.submit,
+        showCancel: false,
         success(res) {
           if (res.confirm) {
             wx.switchTab({

@@ -1,4 +1,6 @@
 const app = getApp()
+const conf = require('../../utils/conf.js')
+
 Page({
 
   /**
@@ -13,6 +15,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    // console.log("13213123123123131321", app.globalData.globalData.navigationBarTitle)
 
   },
   gettaskList(authorization) {
@@ -50,8 +53,9 @@ Page({
             })
           } else {
             wx.showModal({
-              title: '提示',
-              content: '请先设置个人信息',
+              title: that.data.language.toast,
+              content: that.data.language.setingToast,
+              confirmText:that.data.language.submit,
               success(res) {
                 if (res.confirm) {
                   wx.switchTab({
@@ -70,8 +74,10 @@ Page({
       })
     } else {
       wx.showModal({
-        title: '提示',
-        content: '请先设置个人信息',
+        title: that.data.language.toast,
+        content: that.data.language.setingToast,
+        confirmText:that.data.language.submit,
+        showCancel: false,
         success(res) {
           if (res.confirm) {
             wx.switchTab({
@@ -104,11 +110,57 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    let that = this
+    that.setData({
+      language: app.globalData.language
+    })
+    if (app.globalData.language == "") {
+      wx.showActionSheet({
+        itemList: ['汉语', 'English'],
+        success(res) {
+          console.log("navigationBarTitle生命周期函数--监听页面加载")
+          app.globalData.language = conf.language[res.tapIndex]
+          app.globalData.languageIndex=res.tapIndex + ""
+          wx.setNavigationBarTitle({
+            title: app.globalData.language.navigationBarTitle,
+          })
+          that.setData({
+            language: app.globalData.language,
+            languageIndex:res.tapIndex + ""
+          })
+          for (let i = 0; i < 4; i++) {
+            wx.setTabBarItem({
+              index: i,
+              text: app.globalData.language.tabName[i],
+            })
+          }
+        },
+        fail(res) {
+          console.log("navigationBarTitle生命周期函数--监听页面加载")
+          app.globalData.language = conf.language[0]
+          wx.setNavigationBarTitle({
+            title: app.globalData.language.navigationBarTitle,
+          })
+          that.setData({
+            language: app.globalData.language
+          })
+          for (let i = 0; i < 4; i++) {
+            wx.setTabBarItem({
+              index: i,
+              text: app.globalData.language.tabName[i],
+            })
+          }
+        }
+      })
+    }
     this.setData({
       receiveTaskList: [],
       currentPage:1
     })
     this.gettaskList()
+    wx.setNavigationBarTitle({
+      title: app.globalData.language.navigationBarTitle,
+    })
   },
 
   /**

@@ -8,18 +8,18 @@
           <view class="number">{{item.price}}</view>
         </view>
         <view wx:if="{{item.full}}" class="errortip">
-          领取人数已达上线
+          {{language.numberline}}
         </view>
          <view wx:if="{{!item.full && item.status==1}}" class="stautstip">
-          可领取
+          {{language.canR}}
         </view>
         <view wx:if="{{!item.full && item.status==2}}" class="errortip">
-          已停止
+          {{language.stop}}
         </view>
       </view>
       <view>
-        <button class="btn-style-dis" data-id="{{item.id}}" wx:if="{{item.full || item.status==2}}">领取</button>
-        <button class="btn-style" bindtap="receiveWork" data-id="{{item.id}}" wx:else>领取</button>
+        <button class="btn-style-dis" data-id="{{item.id}}" wx:if="{{item.full || item.status==2}}">{{language.receive}}</button>
+        <button class="btn-style" bindtap="receiveWork" data-id="{{item.id}}" wx:else>{{language.receive}}</button>
       </view>
     </view>
   <!-- </block> -->

@@ -9,7 +9,7 @@
     </view>
     <view bindtap="startRecode" data-id="{{item.id}}">
       <!-- <image src="../../image/tabbar/start.png" class="btn-style" ></image> -->
-              <button class="btn-style" >开始</button>
+              <button class="btn-style" >{{language.start}}</button>
     </view>
   </view>
 </scroll-view>

@@ -200,8 +200,9 @@ Page({
         if (res.data.code == 200) {
           if (res.data.data.status==2){
             wx.showModal({
-              title: '提示',
-              content: "请设置个人信息",
+              title: that.data.language.toast,
+              content: that.data.language.setingToast,
+              confirmText:that.data.language.submit,
               success(res) {
                 if (res.confirm) {
                   console.log('用户点击确定')
@@ -227,8 +228,9 @@ Page({
           })
         }else{
           wx.showModal({
-            title: '提示',
-            content: "请设置个人信息",
+            title: that.data.language.toast,
+            content: that.data.language.setingToast,
+            confirmText:that.data.language.submit,
             success(res) {
               if (res.confirm) {
                 console.log('用户点击确定')

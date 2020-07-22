@@ -6,6 +6,31 @@ App({
   onLaunch: function () {
     this.getRecordAuth()
     this.autoUpdate()
+    // this.getLocationInfo()
+  },
+  getLocationInfo(){
+    wx.authorize({
+      scope: 'scope.userLocation',
+      success() {
+        // 用户已经同意小程序使用录音功能，后续调用 wx.startRecord 接口不会弹窗询问
+        wx.getLocation({
+          success: function (res) {
+            console.log("我的系统定位信息", res)
+            let { latitude, longitude} = res
+           // bai73°33′E至135°05′E；纬度范围du：3°51′N至53°33′N
+            if (longitude < 135.05 && longitude > 73.33){
+              if (latitude < 53.33 && latitude>3.51 ){
+                console.log("中国")
+              } else {
+                console.log("外国")
+              }
+            }else{
+              console.log("外国")
+            }
+          },
+        })
+      }
+    })
   },
   autoUpdate: function () {
     console.log(new Date())
@@ -100,6 +125,8 @@ App({
     history: [],
     appId:'wx493240612931798e',
     Authorization:'',
-    sessionKey:''
+    sessionKey:'',
+    language:'',
+    languageIndex:'0'
   }
 })

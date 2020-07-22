@@ -1,37 +1,108 @@
 const app = getApp()
+const conf = require('../../utils/conf.js')
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    agearray: [{ key: '1', value: '儿童(1-9)' }, { key: '2', value: '少年(10-17)' }, { key: '3', value: '青年(18-40)' }, { key: '4', value: '中年(41-64)' }, { key: '5', value: '老年(65以上)' }],
-    ageindex: '',
-    accentarray: [{ key: '1', value: '普通话' }],
-    accentindex: '',
-    accentTypeArray: [{ key: '1', value: '南方口音' }, { key: '2', value: '北方口音' }, { key: '3', value: '两广口音' }, { key: '4', value: '东北口音' }],
-    accentTypeIndex: '',
-    items: [
-      { name: '1', value: '男' },
-      { name: '2', value: '女' }
+    agearray: [{
+      key: '1',
+      value: '儿童(1-9)'
+    }, {
+      key: '2',
+      value: '少年(10-17)'
+    }, {
+      key: '3',
+      value: '青年(18-40)'
+    }, {
+      key: '4',
+      value: '中年(41-64)'
+    }, {
+      key: '5',
+      value: '老年(65以上)'
+    }],
+    accentarray: [{
+      key: '1',
+      value: '普通话'
+    }],
+    accentTypeArray: [{
+      key: '1',
+      value: '南方口音'
+    }, {
+      key: '2',
+      value: '北方口音'
+    }, {
+      key: '3',
+      value: '两广口音'
+    }, {
+      key: '4',
+      value: '东北口音'
+    }],
+    items: [{
+        name: '1',
+        value: '男'
+      },
+      {
+        name: '2',
+        value: '女'
+      }
     ],
-    sexindex: '-1'
+    ageindex: '',
+    accentindex: '',
+    accentTypeIndex: '',
+
+    sexindex: '-1',
+    languages: [{
+        name: '0',
+        value: '汉语'
+      },
+      {
+        name: '1',
+        value: 'English'
+      }
+    ],
+    languageIndex: app.globalData.languageIndex
   },
   radioChange: function (e) {
     console.log('radio发生change事件，携带value值为：', e.detail.value)
     this.setData({
-      sexindex: e.detail.value-1
+      sexindex: e.detail.value - 1
     })
+  },
+  radioChangeLange: function (e) {
+    console.log('radio发生change事件，携带value值为：', e.detail.value)
+    this.setData({
+      languageIndex: e.detail.value
+    })
+    app.globalData.language = conf.language[e.detail.value]
+    app.globalData.languageIndex=e.detail.value + ""
+
+    wx.setNavigationBarTitle({
+      title: app.globalData.language.navigationBarTitle,
+    })
+    this.setData({
+      language: app.globalData.language
+    })
+    for (let i = 0; i < 4; i++) {
+      wx.setTabBarItem({
+        index: i,
+        text: app.globalData.language.tabName[i],
+      })
+    }
+
+
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     this.setData({
-      ageindex: wx.getStorageSync('ageindex')?wx.getStorageSync('ageindex')*1:'',
-      sexindex: wx.getStorageSync('sexindex')?wx.getStorageSync('sexindex')*1:'',
-      accentindex: wx.getStorageSync('accentindex')?wx.getStorageSync('accentindex')*1:'',
-      accentTypeIndex: wx.getStorageSync('accentTypeIndex')?wx.getStorageSync('accentTypeIndex')*1:''
+      ageindex: wx.getStorageSync('ageindex') ? wx.getStorageSync('ageindex') * 1 : '',
+      sexindex: wx.getStorageSync('sexindex') ? wx.getStorageSync('sexindex') * 1 : '',
+      accentindex: wx.getStorageSync('accentindex') ? wx.getStorageSync('accentindex') * 1 : '',
+      accentTypeIndex: wx.getStorageSync('accentTypeIndex') ? wx.getStorageSync('accentTypeIndex') * 1 : ''
     })
   },
   bindPickerChange: function (e) {
@@ -74,7 +145,7 @@ Page({
       }
     })
   },
-  getUserInfo(e){
+  getUserInfo(e) {
     let that = this
     wx.request({
       url: `${app.globalData.baseurl}/wechat/user/bind`,
@@ -121,27 +192,76 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    let that = this
+    wx.setNavigationBarTitle({
+      title: app.globalData.language.navigationBarTitle,
+    })
+    that.setData({
+      language: app.globalData.language,
+      agearray: app.globalData.language.agearray,
+      accentarray: app.globalData.language.accentarray,
+      accentTypeArray: app.globalData.language.accentTypeArray,
+      items: app.globalData.language.items,
+      languageIndex:app.globalData.languageIndex
+    })
+    if (app.globalData.language == "") {
+      wx.showActionSheet({
+        itemList: ['汉语', 'English'],
+        success(res) {
+          console.log("navigationBarTitle生命周期函数--监听页面加载")
+          app.globalData.language = conf.language[res.tapIndex]
+          wx.setNavigationBarTitle({
+            title: app.globalData.language.navigationBarTitle,
+          })
+          that.setData({
+            language: app.globalData.language,
+            agearray: app.globalData.language.agearray,
+            accentarray: app.globalData.language.accentarray,
+            accentTypeArray: app.globalData.language.accentTypeArray,
+            items: app.globalData.language.items,
+            languageIndex:res.tapIndex + ""
+          })
+          for (let i = 0; i < 4; i++) {
+            wx.setTabBarItem({
+              index: i,
+              text: app.globalData.language.tabName[i],
+            })
+          }
+        },
+        fail(res) {
+          console.log("navigationBarTitle生命周期函数--监听页面加载")
+          app.globalData.language = conf.language[0]
+          wx.setNavigationBarTitle({
+            title: app.globalData.language.navigationBarTitle,
+          })
+          that.setData({
+            language: app.globalData.language
+          })
+        }
+      })
+    }
   },
   /**
    * 保存设置信息
    */
   savesetting() {
-    if ('' + this.data.ageindex == '' || '' + this.data.sexindex == '' || '' + this.data.accentindex == '' || '' +this.data.accentTypeIndex == '') {
+    if ('' + this.data.ageindex == '' || '' + this.data.sexindex == '' || '' + this.data.accentindex == '' || '' + this.data.accentTypeIndex == '') {
       wx.showToast({
-        title: '请填写全部个人信息',
+        title: this.data.language.fillInfo,
         icon: 'none'
       })
     } else {
       wx.setStorageSync("userifno", true)
-      wx.setStorageSync("ageindex", ''+this.data.ageindex)
-      wx.setStorageSync("sexindex", ''+this.data.sexindex)
-      wx.setStorageSync("accentindex", ''+this.data.accentindex)
-      wx.setStorageSync("accentTypeIndex", ''+this.data.accentTypeIndex)
+      wx.setStorageSync("ageindex", '' + this.data.ageindex)
+      wx.setStorageSync("sexindex", '' + this.data.sexindex)
+      wx.setStorageSync("accentindex", '' + this.data.accentindex)
+      wx.setStorageSync("accentTypeIndex", '' + this.data.accentTypeIndex)
       wx.showModal({
-        title: '提示',
-        content: '保存成功',
-        showCancel:false
+        title: this.data.language.toast,
+        content: this.data.language.savesucess,
+     
+            confirmText:this.data.language.submit,
+        showCancel: false
       })
     }
   },

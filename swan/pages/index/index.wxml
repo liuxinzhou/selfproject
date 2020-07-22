@@ -11,21 +11,27 @@
         <input class="weui-input" maxlength="10" auto-focus placeholder="请输入您的姓名" bindblur="bindUsername" value="{{person.userName}}" />
       </view>
     </view>
-    <view class="usernamebox">
+    <!-- <view class="usernamebox">
       <view class="usernamelable">身份证</view>
       <view class="userinput">
-        <input class="weui-input" maxlength="18" auto-focus placeholder="请输入您的身份证号" bindblur="bindIdCard" value="{{person.idCard}}" />
+        <input class="weui-input" maxlength="18" auto-focus placeholder="请输入您的身份证号" bindblur="bindIdCard" value="{{person.idCard}}" type="password"/>
       </view>
-    </view>
+    </view> -->
     <view class="usernamebox">
       <view class="usernamelable">手机</view>
       <view class="userinput">
         <input class="weui-input" value="{{person.tel}}" maxlength="11" auto-focus placeholder="请输入您的手机号" bindblur="bindtel" />
       </view>
     </view>
+    <view class="usernamebox">
+      <view class="usernamelable">体温</view>
+      <view class="userinput">
+        <input placeholder="请输入你的体温" class="weui-input" bindblur="bindtemperature" value="{{person.userinfo.temperature}}" />
+      </view>
+    </view>
   </view>
   <view class="dutyinfo">
-    <view class="labelwenti">
+    <!-- <view class="labelwenti">
       1、本人是否有发热咳嗽症状
     </view>
     <view class="valuelist">
@@ -69,11 +75,11 @@
     </view>
     <view class="address-box">
       <textarea placeholder="请输入现在所在地址" bindblur="bindAddress" value="{{person.userinfo.currAddress}}" />
+    </view> -->
+    <!-- <view class="labelwenti">
+    今日体温
     </view>
-    <view class="labelwenti">
-      5、今日体温
-    </view>
-    <input placeholder="请输入你的体温" class="temperature" bindblur="bindtemperature" value="{{person.userinfo.temperature}}" />
+    <input placeholder="请输入你的体温" class="temperature" bindblur="bindtemperature" value="{{person.userinfo.temperature}}" /> -->
   </view>
   <button class="submitbtn" bindtap="saveUserInfo">提交</button>
 </view>

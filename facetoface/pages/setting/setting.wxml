@@ -1,6 +1,6 @@
 <view class="section">
   <view>
-    <view class="section__title">年龄段</view>
+    <view class="section__title">{{language.age}}</view>
   </view>
   <view class="main">
     <picker bindchange="bindPickerChange" value="{{ageindex}}" range="{{agearray}}" range-key="value">
@@ -14,7 +14,7 @@
 </view>
 <view class="section">
   <view class="sex">
-    <view class="section__title">性别</view>
+    <view class="section__title">{{language.sex}}</view>
     <radio-group class="radio-group" bindchange="radioChange">
       <radio class="radio" wx:for-items="{{items}}" wx:key="name" value="{{item.name}}" checked="{{index===sexindex}}">
         <text>{{item.value}}</text>
@@ -24,7 +24,7 @@
 </view>
 <view class="section">
   <view>
-    <view class="section__title">口音</view>
+    <view class="section__title">{{language.accent}}</view>
   </view>
   <view class="main">
     <picker bindchange="bindAccentChange" value="{{accentindex}}" range="{{accentarray}}" range-key="value">
@@ -37,7 +37,7 @@
 
 </view>
 <view class="section">
-  <view class="section__title">口音类型</view>
+  <view class="section__title">{{language.accentType}}</view>
 
   <view class="main">
     <picker bindchange="bindPickerTypeChange" value="{{accentTypeIndex}}" range="{{accentTypeArray}}" range-key="value">
@@ -48,5 +48,16 @@
     <image src="../../image/tabbar/right.png" class="right-btn"></image>
   </view>
 </view>
-<button class="save" bindgetuserinfo="bindgetuserinfo" open-type="getUserInfo">保存</button>
-<view class="version">V1.2.1</view>
+<view class="section">
+  <view class="sex">
+    <view class="section__title">{{language.language}}</view>
+    <radio-group class="radio-group" bindchange="radioChangeLange">
+      <radio class="radio" wx:for-items="{{languages}}" wx:key="name" value="{{item.name}}" checked="{{index==languageIndex}}">
+        <text>{{item.value}}</text>
+      </radio>
+    </radio-group>
+  </view>
+</view>
+
+<button class="save" bindgetuserinfo="bindgetuserinfo" open-type="getUserInfo">{{language.save}}</button>
+<view class="version">V1.2.2</view>

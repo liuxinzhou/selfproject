@@ -15,7 +15,9 @@ Page({
     words: [],
     index: 0,
     speekSum: 1,
-    recorderManager: ''
+    recorderManager: '',
+    language:'',
+    languageIndex:app.globalData.languageIndex
   },
   /**
    * 开始录音
@@ -132,11 +134,11 @@ Page({
       success(res) {
         if (res.data.code == 200) {
           if (res.data.data.speed == 1) {
-            res.data.data.speed = '正常语速'
+            res.data.data.speed = that.data.language.nspeed
           } else if (res.data.data.speed == 2) {
-            res.data.data.speed = '快速语速'
+            res.data.data.speed = that.data.language.fspeed
           } else if (res.data.data.speed == 3) {
-            res.data.data.speed = '慢速语速'
+            res.data.data.speed = that.data.language.lowspeed
           }
           that.setData({
             info: res.data.data,
@@ -144,8 +146,10 @@ Page({
           })
         } else {
           wx.showModal({
-            title: '提示',
-            content: "该任务已经被停止",
+            title: that.data.language.toast,
+            content: that.data.language.stopwork,
+            confirmText:that.data.language.submit,
+            showCancel:false,
             success(res) {
               if (res.confirm) {
                 console.log('用户点击确定')
@@ -185,7 +189,13 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    wx.setNavigationBarTitle({
+      title: app.globalData.language.navigationBarTitle,
+    })
+    this.setData({
+      language:app.globalData.language,
+      languageIndex:app.globalData.languageIndex
+    })
   },
 
   /**

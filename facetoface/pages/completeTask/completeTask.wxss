@@ -48,3 +48,12 @@
   text-align: right;
   color: #333;
 }
+.tiparea{
+  display: flex;
+  flex-direction: column;
+  font-size: 28rpx;
+  color: #1296db;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
