@@ -1,3 +1,0 @@
-<!--pages/speek/speek.wxml-->
-<text>pages/speek/speek.wxml</text>
-<button bindtap="textToSpeech">说话</button>
